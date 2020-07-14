@@ -1,6 +1,19 @@
 import wollok.game.*
 import simulacion.*
 
+object agenteSalud{
+	var property position 
+	
+	method moverDerecha() { self.position(self.position().right(1)) }
+	method moverIzquierda() { self.position(self.position().left(1)) }
+	method moverArriba() { self.position(self.position().up(1)) }
+	method moverAbajo() { self.position(self.position().down(1)) }
+	
+	method curar(manzana){
+		manzana.manzanas().all({cosa =>not cosa.infectarse()})
+	}
+}
+
 object pandemiaGameConfig {
 	method height() = 4
 	method width() = 6
@@ -9,6 +22,10 @@ object pandemiaGameConfig {
 	method configureGame() {
 		self.configureGameParameters()
 		self.agregarManzanas()
+		keyboard.right().onPressDo{ simulacion.manzanas().moverDerecha() }
+		keyboard.left().onPressDo{ simulacion.manzanas().moverIzquierda() } 
+		keyboard.up().onPressDo{ simulacion.manzanas().moverArriba() }
+		keyboard.down().onPressDo{ simulacion.manzanas().moverAbajo() }
 		// agregar las teclas de acciones
 		// después, al agente de salud y sus teclas de acciones y movimiento
 	}
